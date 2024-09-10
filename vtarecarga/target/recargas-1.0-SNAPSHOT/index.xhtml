@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Venta de Recargas</title>
+    </h:head>
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns="2">
+
+                <p:outputLabel value="Operador:                "/>
+                <p:selectOneMenu value="#{index_control.datosRecarga.operadorIdoperador}" required="true"
+                                 requiredMessage="Debe Seleccionar el Operador">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione Operador..."/>
+                    <f:selectItems value="#{index_control.operadores}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Vendedor:                "/>
+                <p:selectOneMenu value="#{index_control.datosRecarga.vendedorIdvendedor}" required="true"
+                                 requiredMessage="Debe Seleccionar el Vendedor">
+                    <f:selectItem itemValue="0" itemLabel="Seleccione Vendedor..."/>
+                    <f:selectItems value="#{index_control.vendedores}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="ValorRecarga:"/>
+                <p:inputText value="#{index_control.datosRecarga.valorRecarga}"/>
+
+                <p:outputLabel value=""/>
+                <p:commandButton value="Registrar Recarga" actionListener="#{index_control.eventoRegistrarRecarga()}" update="@form"/>
+
+                <p:column>
+                    <p:commandButton value="Ventas Por Operador" onclick="PF('dialogo_vtasop').show()" actionListener="#{index_control.eventoListarVentasTotalOperador()}" update="@form:panel_dialogovtaop"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Ventas Por Vendedor" onclick="PF('dialogo_vtasve').show()" actionListener="#{index_control.eventoListarVentasTotalVendedor()}" update="@form:panel_dialogovtave"/>
+                </p:column>
+
+
+            </h:panelGrid>
+
+            <p:dataTable value="#{index_control.listaventas}" var="recargas">
+
+                <p:column headerText="idventa">
+                    <p:outputLabel value="#{recargas.idventas_recarga}"/>
+                </p:column>
+                <p:column headerText="operador">
+                    <p:outputLabel value="#{recargas.nombreoperador}"/>
+                </p:column>
+
+                <p:column headerText="vendedor">
+                    <p:outputLabel value="#{recargas.nombrevendedor}"/>
+                </p:column>
+
+                <p:column headerText="valor">
+                    <p:outputLabel value="#{recargas.valor_recarga}"/>
+                </p:column>
+
+            </p:dataTable>
+            <p:dialog header="Listar Ventas Operador" widgetVar="dialogo_vtasop" minHeight="40" width="350" showEffect="fade">
+                <h:panelGrid id="panel_dialogovtaop">
+                    <p:dataTable value="#{index_control.listaventastotalesop}" var="ventasop">
+
+                        <p:column headerText="Operador">
+                            <p:outputLabel value="#{ventasop.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Nro Ventas">
+                            <p:outputLabel value="#{ventasop.ventas}"/>
+                        </p:column>
+
+                        <p:column headerText="Valor Total">
+                            <p:outputLabel value="#{ventasop.valor}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+            <p:dialog header="Listar Ventas Vendedor" widgetVar="dialogo_vtasve" position="40" minHeight="40" width="350" showEffect="fade">
+                <h:panelGrid id="panel_dialogovtave">
+                    <p:dataTable value="#{index_control.listaventastotalesve}" var="ventasve">
+
+                        <p:column headerText="Vendedor">
+                            <p:outputLabel value="#{ventasve.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Nro Ventas">
+                            <p:outputLabel value="#{ventasve.ventas}"/>
+                        </p:column>
+
+                        <p:column headerText="Valor Total">
+                            <p:outputLabel value="#{ventasve.valor}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+    </h:body>
+</html>
